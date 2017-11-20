@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.pomohouse.service.test" >
+
+    <uses-sdk
+        android:minSdkVersion="21"
+        android:targetSdkVersion="22" />
+
+    <instrumentation
+        android:name="android.test.InstrumentationTestRunner"
+        android:functionalTest="false"
+        android:handleProfiling="false"
+        android:label="Tests for com.pomohouse.service.test"
+        android:targetPackage="com.pomohouse.service.test" />
+    <!-- used to communicate with Skyhook's servers -->
+    <uses-permission android:name="android.permission.ACCESS_SUPERUSER" />
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- enables WiFi, if disabled, for the duration of a location request -->
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" /> <!-- used to obtain information about the WiFi environment -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> <!-- used to obtain cell tower ID -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_UPDATES" /> <!-- used to access GPS location, for XPS functionality -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+
+    <application
+        android:allowBackup="true"
+        android:supportsRtl="true" >
+        <uses-library android:name="android.test.runner" />
+
+        <service android:name="com.pomohouse.service.sensor.SensorService" />
+        <service android:name="com.pomohouse.service.PomoService" />
+        <service android:name="com.pomohouse.service.PomoLocationService" />
+
+        <activity
+            android:name="com.pomohouse.library.languages.BlankDummyActivity"
+            android:theme="@android:style/Theme.Black.NoTitleBar" />
+    </application>
+
+</manifest>
