@@ -70,7 +70,7 @@
         jumboMode="false"
         optimize="true"
         revision="25.0.2"
-        sha1="86bf4176ec015c43bde0c0c11b5d4eee769dfd34">
+        sha1="009525fd0162b0bf9189263aa9d019d236f76412">
         <dex dex="/Users/sirawit/pomo-waffle-watch/app/build/intermediates/transforms/dex/release/folders/1000/4/classes_bbc9ff1288ec4a2d397bc2d6515b794a7858d6cb/classes.dex" />
     </item>
     <item
@@ -279,6 +279,15 @@
         revision="25.0.2"
         sha1="0a534044236cf81b002604643d23e7ca56bd1ee0">
         <dex dex="/Users/sirawit/pomo3g/app/build/intermediates/transforms/dex/release/folders/1000/10/classes_f0a6f979e4a72d45e452f84fdb6cc2bd3856da4b/classes.dex" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/sirawit/pomo-waffle-watch/library/build/intermediates/bundles/default/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="009525fd0162b0bf9189263aa9d019d236f76412">
+        <dex dex="/Users/sirawit/pomo-waffle-watch/bestfriendforever/build/intermediates/pre-dexed/release/classes_bbc9ff1288ec4a2d397bc2d6515b794a7858d6cb.jar" />
     </item>
     <item
         is-multidex="true"

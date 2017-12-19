@@ -26,7 +26,8 @@ public class ServiceApiGenerator extends BaseServiceGenerator {
     //private String API_BASE_URL = "http://api.pomowaffle.com/v1.2/api/watch/";
     //private String API_BASE_URL = "http://45.79.203.221:3000/v1.2/api/watch/";
     //private String API_BASE_URL = "http://54.169.222.17:3000/v1.2/api/watch/";
-    private String API_BASE_URL = "http://api.igps-server.com/v1.2/api/watch/";
+    //private String API_BASE_URL = "http://api.igps-server.com/v1.2/api/watch/";
+    private String API_BASE_URL = "https://staging-api.pomowaffle.com/v1.2/api/watch/";
 
     private Retrofit.Builder builder = new Retrofit.Builder().baseUrl(API_BASE_URL);
 
