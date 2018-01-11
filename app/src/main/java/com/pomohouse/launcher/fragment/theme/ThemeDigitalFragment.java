@@ -126,9 +126,11 @@ public class ThemeDigitalFragment extends BaseThemeFragment implements IThemeFra
                 return inflater.inflate(R.layout.fragment_theme_4, container, false);
             case 5:
                 themeDefault = true;
-                //themeDefault = theme.getPosition() == 1 && theme.getThemeId() == 5;//normal
+                themeDefault = theme.getPosition() == 1 && theme.getThemeId() == 5;//normal
 //                themeDefault = theme.getPosition() <= 2 && theme.getThemeId() == 5;//frisco
                 return inflater.inflate(R.layout.fragment_theme_5, container, false);
+            case 7:
+                return inflater.inflate(R.layout.fragment_theme_7, container, false);
             default:
                 return inflater.inflate(R.layout.fragment_theme_5, container, false);
         }
@@ -167,7 +169,8 @@ public class ThemeDigitalFragment extends BaseThemeFragment implements IThemeFra
         updateTime(Calendar.getInstance().get(Calendar.HOUR_OF_DAY), Calendar.getInstance().get(Calendar.MINUTE));
         getActivity().getContentResolver().registerContentObserver(Settings.System.getUriFor(Settings.System.TIME_12_24),
                 false, timeFormatObserver);
-
+        if (currentTimeFormat == null)
+            return;
         if (currentTimeFormat.equals("24"))
             LockScreenService.is24HourFormat = true;
         else if (currentTimeFormat.equals("12"))
@@ -210,6 +213,8 @@ public class ThemeDigitalFragment extends BaseThemeFragment implements IThemeFra
         String hourStr = hour < 10 ? "0" + hour : String.valueOf(hour);
         String minuteStr = minute < 10 ? "0" + minute : String.valueOf(minute);
         tvAmPm.setText(hour >= 12 ? getResources().getString(R.string.text_pm) : getResources().getString(R.string.text_am));
+        if (currentTimeFormat == null)
+            return;
         if (currentTimeFormat.equals("24")) {
             tvAmPm.setVisibility(View.INVISIBLE);
         } else if (currentTimeFormat.equals("12")) {

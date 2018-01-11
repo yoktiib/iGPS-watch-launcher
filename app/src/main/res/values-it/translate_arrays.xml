@@ -48,6 +48,7 @@
     </string-array>
     <string-array name="settingMenuNameArr">
         <item>Associa</item>
+
         <item>Luminosità</item>
         <item>Volume</item>
         <item>Il mio Waffle</item>

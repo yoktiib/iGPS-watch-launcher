@@ -87,6 +87,12 @@
                 <action android:name="android.intent.action.PHONE_STATE" />
             </intent-filter>
         </receiver>
+        <receiver android:name=".fragment.contacts.OutGoingCallReceiver">
+            <intent-filter android:priority="999">
+                <action android:name="android.intent.action.PHONE_STATE" />
+                <action android:name="android.intent.action.NEW_OUTGOING_CALL" />
+            </intent-filter>
+        </receiver>
 
         <service android:name=".push.MyFirebaseMessagingService">
             <intent-filter>
@@ -109,8 +115,7 @@
         <service android:name=".activity.mosquito.MosquitoService" />
         <service android:name=".broadcast.sensor.SensorService" />
 
-        <service
-            android:name=".main.LocationIntentService" />
+        <service android:name=".main.LocationIntentService" />
     </application>
 
 </manifest>

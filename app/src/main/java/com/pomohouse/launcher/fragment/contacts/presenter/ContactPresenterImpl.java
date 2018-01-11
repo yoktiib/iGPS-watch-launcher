@@ -414,7 +414,7 @@ public class ContactPresenterImpl extends BaseRetrofitPresenter implements ICont
             values.put(ContactsContract.CommonDataKinds.Photo.PHOTO, avatar);
             mContext.getContentResolver().insert(ContactsContract.Data.CONTENT_URI, values);
             os.close();
-        }catch(Exception ex){
+        }catch(Exception ignored){
 
         }
     }

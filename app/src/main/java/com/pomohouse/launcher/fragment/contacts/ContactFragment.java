@@ -95,6 +95,7 @@ public class ContactFragment extends BaseFragment {
             Timber.e("callType : " + contactModel.getCallType() + " & ID : " + contactModel.getContactId() + " & Phone : " + contactModel.getPhone() + " isCall = " + isCanCall);
             if (isCanCall) {
                 isCanCall = false;
+                OutGoingCallReceiver.isSOS = false;
                 if (contactModel.getCallType().equalsIgnoreCase("C")) {
                     Intent intent = new Intent(Intent.ACTION_CALL);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

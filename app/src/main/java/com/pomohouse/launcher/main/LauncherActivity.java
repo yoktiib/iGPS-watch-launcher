@@ -1,18 +1,22 @@
 package com.pomohouse.launcher.main;
 
+import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.location.Location;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.PowerManager;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.multidex.MultiDex;
 import android.support.v4.view.ViewPager;
 import android.view.KeyEvent;
 import android.view.WindowManager;
@@ -20,7 +24,14 @@ import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.location.LocationAvailability;
+import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationSettingsRequest;
+import com.google.android.gms.location.LocationSettingsResult;
+import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.Gson;
 import com.pomohouse.component.pager.HorizontalViewPager;
@@ -138,45 +149,8 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
                 googleApiClient.connect();
             else
                 this.checkLocationAvailable();
-        }/*
-        momentsClient = MomentsClient.getInstance(this);
-        MomentsClient.getInstance(this, listener);
-        momentsClient.setTrackingMode(TrackingMode.MANUAL);
-        momentsClient.monitorLocation(this, new LocationCallback<LauncherActivity>() {
-            @Override
-            public void handleLocation(LauncherActivity mainActivity, Location loc) {
-                Timber.e("Monitor : " + loc.getAccuracy() + " => " + loc.getProvider());
-            }
-        });
-
-        momentsClient.monitorLocation("anything", new LocationCallback<String>() {
-            @Override
-            public void handleLocation(String extra, Location loc) {
-                Bundle bundle = loc.getExtras();
-                String action = bundle.getString(Moments.KEY_TRAIL_ACTION);
-                if (Moments.TRAIL_ACTION_DEPARTURE.equals(action)) {
-                    bundle.getLong(Moments.KEY_ARRIVAL_TIME);
-                }
-                Timber.e("Current : " + loc.getAccuracy() + " => " + loc.getProvider());
-                // Do something
-            }
-        });
-
-        if (momentsClient.bestKnownLocation() != null)
-            Toast.makeText(mContext, "" + momentsClient.bestKnownLocation().getAccuracy() + " => " + momentsClient.bestKnownLocation().getProvider(), Toast.LENGTH_SHORT).show();*/
+        }
     }
-/*
-    MomentsClient.ConnectionListener listener = new MomentsClient.ConnectionListener() {
-        @Override
-        public void onConnected(Moments moments) {
-            Toast.makeText(mContext, "ConnectionListener", Toast.LENGTH_SHORT).show();
-        }
-
-        @Override
-        public void onConnectionError(com.lotadata.moments.ConnectionResult connectionResult) {
-
-        }
-    };*/
 
     @Override
     public void stopLocation() {
@@ -196,8 +170,8 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
     protected void onDestroy() {
         presenter.onDestroy();
         super.onDestroy();
-        /*if (googleApiClient != null && googleApiClient.isConnected())
-            googleApiClient.disconnect();*/
+        if (googleApiClient != null && googleApiClient.isConnected())
+            googleApiClient.disconnect();
     }
 
     @Override
@@ -219,16 +193,15 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
     @Override
     public void requestGPSLocation() {
         Timber.e("requestGPSLocation");
-        /*LocationRequest locationRequest = new LocationRequest()
+        LocationRequest locationRequest = new LocationRequest()
                 .setNumUpdates(1)
                 .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         LocationAvailability locationAvailability = LocationServices.FusedLocationApi.getLocationAvailability(googleApiClient);
         if (locationAvailability == null)
-            LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, initIntentPadding(1));*/
+            LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, initIntentPadding(1));
     }
 
     public void checkLocationAvailable() {
-        /*
         if (!isNetworkAvailable())
             return;
         WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
@@ -285,11 +258,10 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
                     }
                 }
             }
-        }, 10000);*/
+        }, 10000);
     }
 
-    /*
-    @Override
+   /* @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
             case REQUEST_CHECK_SETTINGS:
@@ -350,11 +322,11 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
         presenter.initMessageContentProvider(this);
 
         presenter.updateFCMTokenManager(fcmToken);
-        /*googleApiClient = new GoogleApiClient.Builder(this)
+        googleApiClient = new GoogleApiClient.Builder(this)
                 .addApi(LocationServices.API)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
-                .build();*/
+                .build();
         Intent i = new Intent();
         startService(i.setComponent(new ComponentName("com.pomohouse.contact", "com.pomohouse.contact.VoIPService")));
     }
@@ -441,6 +413,7 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+        MultiDex.install(this);
     }
 
 
@@ -488,11 +461,11 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
 
 
     private void hideRilakkumaTheme() {
-//        themeManager.getCurrentTheme().setChanged(true);
-
-        ThemePrefModel theme = themeManager.getDataTheme().get(0).setChanged(true);
-        themeManager.addCurrentTheme(theme);
-//        themeManager.getCurrentTheme().setChanged(true);
+        if (themeManager.getCurrentTheme().getPosition() > themeManager.getDataTheme().size()) {
+            ThemePrefModel theme = themeManager.getDataTheme().get(0).setChanged(true);
+            themeManager.addCurrentTheme(theme);
+            themeManager.getCurrentTheme().setChanged(true);
+        }
         pagerAdapter.getMainFragment().checkThemeChange();
         presenter.addNewWatchFaceToSetting(this, false);
 
@@ -509,8 +482,13 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
         ActivityContextor.getInstance().init(this);
 
 //        startRtcRepeatAlarm( this);
-
         sendBroadcast(new Intent(SEND_EVENT_KILL_APP));
+
+        /*new Handler().postDelayed(() -> {
+            Timber.e("SEND_EVENT_KILL_APP");
+            //Do something after 100ms
+            sendBroadcast(new Intent(SEND_EVENT_KILL_APP));
+        }, 3000);*/
     }
    /* private AlarmManager mAlarmManager;
     private Intent mAlarmIntent;

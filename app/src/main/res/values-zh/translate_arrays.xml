@@ -53,6 +53,7 @@
 
     <string-array name="settingMenuNameArr">
         <item>配對手錶</item>
+
         <item>亮度</item>
         <item>音量</item>
         <item>我的手錶</item>

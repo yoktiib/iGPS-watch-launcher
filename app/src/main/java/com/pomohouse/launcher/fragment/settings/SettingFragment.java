@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 
 import com.pomohouse.launcher.R;
 import com.pomohouse.launcher.activity.settings.about.AboutActivity;
+import com.pomohouse.launcher.activity.settings.network.NetworkActivity;
 import com.pomohouse.launcher.activity.settings.options.OptionSettingActivity;
 import com.pomohouse.launcher.activity.theme.ThemeActivity;
 import com.pomohouse.launcher.base.BaseFragment;
@@ -63,7 +64,6 @@ public class SettingFragment extends BaseFragment implements ISettingView {
         rcvSetting.setItemAnimator(new DefaultItemAnimator());
         rcvSetting.setAdapter(new SettingAdapter(createSettingMenu(), (view1, position, isLongClick) -> {
             Bundle bundle;
-
             try {
                 switch (position) {
                     case 1:
@@ -79,13 +79,13 @@ public class SettingFragment extends BaseFragment implements ISettingView {
                     case 3:
                         openActivity(ThemeActivity.class);
                         break;
-                    /*case 4:
-                        Intent intentBT = new Intent("com.gt.watchsettings.BLUETOOTH_SETTINGS");
-                        startActivity(intentBT);
-                        break;
-                    case 5:
-                        openActivity(NetworkActivity.class);
-                        break;*/
+//                    case 4:
+//                        Intent intentBT = new Intent("com.gt.watchsettings.BLUETOOTH_SETTINGS");
+//                        startActivity(intentBT);
+//                        break;
+//                    case 5:
+//                        openActivity(NetworkActivity.class);
+//                        break;
                     case 4:
                         Intent intentWIFI = new Intent("com.gt.watchsettings.WIFI_SETTINGS");
                         startActivity(intentWIFI);
@@ -107,7 +107,49 @@ public class SettingFragment extends BaseFragment implements ISettingView {
                         break;
                 }
             } catch (Exception ignored) {
-            }
+            }/*
+
+            try {
+                switch (position) {
+                    case 0:
+                        bundle = new Bundle();
+                        bundle.putInt(MiniSettingFragment.MENU_SELECTED, 1);
+                        openActivity(OptionSettingActivity.class, bundle);
+                        break;
+                    case 1:
+                        bundle = new Bundle();
+                        bundle.putInt(MiniSettingFragment.MENU_SELECTED, 0);
+                        openActivity(OptionSettingActivity.class, bundle);
+                        break;
+                    case 2:
+                        openActivity(ThemeActivity.class);
+                        break;
+//                    case 4:
+//                        Intent intentBT = new Intent("com.gt.watchsettings.BLUETOOTH_SETTINGS");
+//                        startActivity(intentBT);
+//                        break;
+//                    case 5:
+//                        openActivity(NetworkActivity.class);
+//                        break;
+                    case 3:
+                        Intent intentWIFI = new Intent("com.gt.watchsettings.WIFI_SETTINGS");
+                        startActivity(intentWIFI);
+                        break;
+                    case 4:
+                        showAlertDialogFragment(ConfirmDialogFragment.newInstance(restart, ConfirmDialogFragment._KEY_RESTART), ConfirmDialogFragment.class.getName());
+                        break;
+                    case 5:
+                        showAlertDialogFragment(ConfirmDialogFragment.newInstance(shutdown, ConfirmDialogFragment._KEY_POWER_OFF), ConfirmDialogFragment.class.getName());
+                        break;
+                    case 6:
+                        ComponentName componentName = new ComponentName("com.rock.gota", "com.rock.gota.MainActivity");
+                        Intent updateIntent = new Intent();
+                        updateIntent.setComponent(componentName);
+                        startActivity(updateIntent);
+                        break;
+                }
+            } catch (Exception ignored) {
+            }*/
         }));
 
     }

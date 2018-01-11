@@ -3,11 +3,14 @@ package com.pomohouse.launcher.lock_screen;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.PixelFormat;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Binder;
 import android.os.Handler;
 import android.os.IBinder;
+import android.provider.CallLog;
 import android.provider.Settings;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
@@ -24,9 +27,12 @@ import com.pomohouse.launcher.broadcast.callback.ScreenOnListener;
 import com.pomohouse.launcher.broadcast.callback.TimeTickChangedListener;
 import com.pomohouse.launcher.broadcast.receivers.DeviceActionReceiver;
 import com.pomohouse.launcher.broadcast.receivers.EventReceiver;
+import com.pomohouse.launcher.fragment.contacts.IncomingCallReceiver;
+import com.pomohouse.launcher.fragment.contacts.OutGoingCallReceiver;
 import com.pomohouse.launcher.manager.notifications.INotificationManager;
 import com.pomohouse.launcher.manager.notifications.NotificationPrefManager;
 import com.pomohouse.launcher.manager.notifications.NotificationPrefModel;
+import com.pomohouse.launcher.models.contacts.ContactCollection;
 import com.pomohouse.launcher.utils.CombineObjectConstance;
 import com.pomohouse.launcher.utils.EventConstant;
 import com.pomohouse.launcher.models.events.BatteryChargerEvent;
@@ -73,6 +79,7 @@ public class LockScreenService extends Service {
     private INotificationManager notificationManager;
     private SoundPoolManager soundPoolManager;
     private VibrateManager vibrateManager;
+    private int positionOfCall = 0;
 
     AppCompatTextView tvHour;
     AppCompatTextView tvAmPm;
@@ -260,6 +267,8 @@ public class LockScreenService extends Service {
                     }
                     break;
                 case SOS:
+                    OutGoingCallReceiver.isSOS = true;
+                    positionOfCall = 0;
                     Timber.e("LockScreen - SOS");
                     sosView();
                     break;
@@ -306,6 +315,53 @@ public class LockScreenService extends Service {
         }
     });
 
+    public static boolean getLastCallDetails(Context context) {
+        StringBuffer sb = new StringBuffer();
+        Uri contacts = CallLog.Calls.CONTENT_URI;
+        Cursor managedCursor = context.getContentResolver().query(contacts, null, CallLog.Calls.TYPE + " = " + CallLog.Calls.OUTGOING_TYPE, null, android.provider.CallLog.Calls.DATE + " DESC limit 1");
+        if (managedCursor != null) {
+            int number = managedCursor.getColumnIndex(CallLog.Calls.NUMBER);
+            int type = managedCursor.getColumnIndex(CallLog.Calls.TYPE);
+            int date = managedCursor.getColumnIndex(CallLog.Calls.DATE);
+            int duration = managedCursor.getColumnIndex(CallLog.Calls.DURATION);
+            sb.append("Call Details :");
+            String callDuration = "";
+            if (managedCursor.getCount() == 0)
+                return true;
+            while (managedCursor.moveToNext()) {
+                // HashMap rowDataCall = new HashMap<String, String>();
+                String phNumber = managedCursor.getString(number);
+                String callType = managedCursor.getString(type);
+                String callDate = managedCursor.getString(date);
+                String callDayTime = new Date(Long.valueOf(callDate)).toString();
+                // long timestamp = convertDateToTimestamp(callDayTime);
+                callDuration = managedCursor.getString(duration);
+                String dir = null;
+                int dircode = Integer.parseInt(callType);
+                switch (dircode) {
+                    case CallLog.Calls.OUTGOING_TYPE:
+                        dir = "OUTGOING";
+                        break;
+
+                    case CallLog.Calls.INCOMING_TYPE:
+                        dir = "INCOMING";
+                        break;
+
+                    case CallLog.Calls.MISSED_TYPE:
+                        dir = "MISSED";
+                        break;
+                }
+                sb.append("\nPhone Number:--- ").append(phNumber).append(" \nCall Type:--- ").append(dir).append(" \nCall Date:--- ").append(callDayTime).append(" \nCall duration in sec :--- ").append(callDuration);
+                sb.append("\n----------------------------------");
+            }
+            if (callDuration.equalsIgnoreCase("0"))
+                return true;
+            managedCursor.close();
+            System.out.println(sb);
+        }
+        return false;
+    }
+
     ScreenOnListener screenOnListener = new ScreenOnListener() {
         @Override
         public void onScreenOn() {
@@ -313,23 +369,22 @@ public class LockScreenService extends Service {
                 return;
             if (notificationManager == null)
                 return;
-            if(isWatchInCall() && !isAutoAnswerOn()) {
+            if (isWatchInCall() && !isAutoAnswerOn()) {
                 sendUnLockScreen();
-            }else{
+            } else {
                 updateTime();
                 updateNotification();
             }
         }
     };
 
-
-    private  boolean isWatchInCall(){
-        TelecomManager tm = (TelecomManager)this.getSystemService(Context.TELECOM_SERVICE);
+    private boolean isWatchInCall() {
+        TelecomManager tm = (TelecomManager) this.getSystemService(Context.TELECOM_SERVICE);
         return tm.isInCall();
     }
 
-    private boolean isAutoAnswerOn(){
-        return Settings.System.getInt(this.getContentResolver(),"AUTO_ANSWER_ON",0) == 1 ;
+    private boolean isAutoAnswerOn() {
+        return Settings.System.getInt(this.getContentResolver(), "AUTO_ANSWER_ON", 0) == 1;
     }
 
     public void updateNotification() {
@@ -429,12 +484,12 @@ public class LockScreenService extends Service {
             String minuteStr = minute < 10 ? "0" + minute : String.valueOf(minute);
             if (tvHour == null || tvHour2 == null || tvMinute == null || tvMinute2 == null)
                 return;
-            if(is24HourFormat) {
+            if (is24HourFormat) {
                 tvAmPm.setVisibility(View.GONE);
-            }else{
+            } else {
                 tvAmPm.setVisibility(View.VISIBLE);
-                tvAmPm.setText(hour>=12?getResources().getString(R.string.text_pm):getResources().getString(R.string.text_am));
-                hour = hour < 13 ? hour :( hour-12);
+                tvAmPm.setText(hour >= 12 ? getResources().getString(R.string.text_pm) : getResources().getString(R.string.text_am));
+                hour = hour < 13 ? hour : (hour - 12);
                 hourStr = hour < 10 ? "0" + hour : String.valueOf(hour);
             }
 
@@ -453,11 +508,10 @@ public class LockScreenService extends Service {
             tvDate.setText(day + " " + month);
         if (tvAmPm != null) {
 
-            if(is24HourFormat) {
+            if (is24HourFormat) {
                 tvAmPm.setVisibility(View.GONE);
-            }else{
+            } else {
                 tvAmPm.setVisibility(View.VISIBLE);
-
             }
         }
     }
@@ -498,9 +552,9 @@ public class LockScreenService extends Service {
             tvDate = (AppCompatTextView) mView.findViewById(R.id.tvDate);
             tvDay = (AppCompatTextView) mView.findViewById(R.id.tvDay);
             tvAmPm = (AppCompatTextView) mView.findViewById(R.id.tvAmPm);
-            if(is24HourFormat) {
+            if (is24HourFormat) {
                 tvAmPm.setVisibility(View.GONE);
-            }else{
+            } else {
                 tvAmPm.setVisibility(View.VISIBLE);
             }
             if (tvHour == null || tvHour2 == null || tvMinute == null || tvMinute2 == null)
@@ -597,12 +651,47 @@ public class LockScreenService extends Service {
                         contentBox.setVisibility(View.GONE);
                     }
                 }
+                onSOSCalling();
             });
             if (vibrateManager != null)
                 vibrateManager.sosVibration();
+
+            OutGoingCallReceiver.sosListener = () -> {
+                if (getLastCallDetails(getApplicationContext())) {
+                    onSOSCalling();
+                } else
+                    OutGoingCallReceiver.isSOS = false;
+            };
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void onSOSCalling() {
+        Timber.e("onSOSCalling : " + positionOfCall);
+        ContactCollection contactCollection = CombineObjectConstance.getInstance().getContactEntity().getContactCollection();
+        if (contactCollection == null || contactCollection.getContactModelList() == null || contactCollection.getContactModelList().size() == 0)
+            return;
+        if (contactCollection.getContactModelList().size() == 1)
+            callSOS(contactCollection.getContactModelList().get(0).getPhone());
+        else {
+            if (positionOfCall == 1) {
+                positionOfCall = 0;
+                Timber.e("onSOSCalling : Call 1 " + positionOfCall);
+                callSOS(contactCollection.getContactModelList().get(1).getPhone());
+            } else {
+                positionOfCall = 1;
+                Timber.e("onSOSCalling : Call 0 " + positionOfCall);
+                callSOS(contactCollection.getContactModelList().get(0).getPhone());
+            }
+        }
+    }
+
+    public void callSOS(String phone) {
+        Intent intent = new Intent(Intent.ACTION_CALL);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.setData(Uri.parse("tel:" + phone));
+        startActivity(intent);
     }
 
     boolean doubleBackToExitPressedOnce = false;
@@ -764,7 +853,7 @@ public class LockScreenService extends Service {
             } else
                 Timber.e("Not Un Lock");
             lockScreenEnum = LockScreenEnum.NONE;
-            if(!isWatchInCall()) {  //yangyu add for fix bug
+            if (!isWatchInCall()) {  //yangyu add for fix bug
                 sendBroadcast(new Intent(SEND_EVENT_UNLOCK_DEFAULT_TO_LAUNCHER_INTENT));
             }
         } catch (Exception ignore) {

@@ -32,8 +32,8 @@ android {
         applicationId "com.pomohouse.launcher"
         minSdkVersion 22
         targetSdkVersion 22
-        versionCode 5
-        versionName '1.0.5'
+        versionCode 6
+        versionName '1.0.6'
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled = true
     }
@@ -105,6 +105,5 @@ dependencies {
     provided 'javax.annotation:jsr250-api:1.0'
     compile 'com.google.zxing:core:latest.integration'
     compile project(':library')
-    compile files('libs/moments_sdk.jar')
 }
 apply plugin: 'com.google.gms.google-services'

@@ -6,6 +6,7 @@ import com.pomohouse.library.WearerInfoUtils;
 
 import java.util.concurrent.TimeUnit;
 
+import okhttp3.CertificatePinner;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -20,14 +21,9 @@ import rx.schedulers.Schedulers;
 public class ServiceApiGenerator extends BaseServiceGenerator {
 
     private static ServiceApiGenerator instance = null;
-    //private String API_BASE_URL = "http://203.151.232.222:3000/v1.1/api/watch/";
-    //private String API_BASE_URL = "http://203.151.232.222:3000/v1.2/api/watch/";
-    //private String API_BASE_URL = "http://api.pomowaffle.com/v1.1/api/watch/";
-    //private String API_BASE_URL = "http://api.pomowaffle.com/v1.2/api/watch/";
-    //private String API_BASE_URL = "http://45.79.203.221:3000/v1.2/api/watch/";
-    //private String API_BASE_URL = "http://54.169.222.17:3000/v1.2/api/watch/";
+    private final String API = "staging-api.pomowaffle.com";
+    private String API_BASE_URL = "https://" + API + "/v1.2/api/watch/";
     //private String API_BASE_URL = "http://api.igps-server.com/v1.2/api/watch/";
-    private String API_BASE_URL = "https://staging-api.pomowaffle.com/v1.2/api/watch/";
 
     private Retrofit.Builder builder = new Retrofit.Builder().baseUrl(API_BASE_URL);
 
@@ -57,9 +53,14 @@ public class ServiceApiGenerator extends BaseServiceGenerator {
     }
 
     private OkHttpClient.Builder httpBuilder() {
+        CertificatePinner certPinner = new CertificatePinner.Builder()
+                .add(API,"sha256/Vjs8r4z+80wjNcr1YKepWQboSIRi63WsWXhIMN+eWys=")
+                .build();
+
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        interceptor.setLevel(HttpLoggingInterceptor.Level.NONE);
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+        httpClient.certificatePinner(certPinner);
         httpClient.connectTimeout(10, TimeUnit.SECONDS);
         httpClient.writeTimeout(10, TimeUnit.SECONDS);
         httpClient.readTimeout(10, TimeUnit.SECONDS);

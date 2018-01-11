@@ -54,6 +54,7 @@
 
     <string-array name="settingMenuNameArr">
         <item>ENLAZAR RELOJ</item>
+
         <item>BRILLO</item>
         <item>VOLUMEN</item>
         <item>MI RELOJ</item>

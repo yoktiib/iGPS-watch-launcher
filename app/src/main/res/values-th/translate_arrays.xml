@@ -48,6 +48,7 @@
     </string-array>
     <string-array name="settingMenuNameArr">
         <item>เชื่อมต่อนาฬิกา</item>
+
         <item>ความสว่าง</item>
         <item>ระดับเสียง</item>
         <item>นาฬิกาของฉัน</item>

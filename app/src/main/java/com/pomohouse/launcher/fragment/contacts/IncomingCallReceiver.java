@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.net.Uri;
+import android.os.Handler;
 import android.os.PowerManager;
 import android.telephony.PhoneNumberUtils;
 import android.telephony.TelephonyManager;
@@ -27,15 +28,16 @@ public class IncomingCallReceiver extends BroadcastReceiver {
 
     AudioManager audioManager;
     TelephonyManager telephonyManager;
-    private static boolean ring = false;
-    private static boolean callReceived = false;
+    public static boolean ring = false, callReceived = false;
     private static String incomingNumber;
 
     public void onReceive(Context context, Intent intent) {
         try {
-            audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
-            telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-            if (intent.getAction().equals(TelephonyManager.ACTION_PHONE_STATE_CHANGED)) {
+            if (intent == null || intent.getAction() == null)
+                return;
+            if (intent.getAction().equalsIgnoreCase(TelephonyManager.ACTION_PHONE_STATE_CHANGED)) {
+                audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+                telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
                 if (CombineObjectConstance.getInstance().isInClassTime() && !CombineObjectConstance.getInstance().isAutoAnswer()) {
                     rejectCall();
                 } else {
@@ -70,9 +72,7 @@ public class IncomingCallReceiver extends BroadcastReceiver {
                         callReceived = false;
                     }
                 }
-
             }
-
         } catch (Exception ignore) {
         }
     }
