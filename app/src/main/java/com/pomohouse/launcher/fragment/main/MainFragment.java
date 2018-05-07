@@ -1,6 +1,9 @@
 package com.pomohouse.launcher.fragment.main;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -56,6 +59,7 @@ import static com.pomohouse.launcher.broadcast.BaseBroadcast.SEND_EVENT_INTERNET
  * Fragment to manage the central page of the 5 pages application navigation (top, center, bottom, left, right).
  */
 public class MainFragment extends BaseFragment implements IMainFragmentView {
+    private final static String ACTION_SIM_STATE_CHANGED = "android.intent.action.SIM_STATE_CHANGED";
     private BaseThemeFragment currentTheme;
     private ArrayList<ThemePrefModel> themePrefModelArrayList;
     private BusWrapper busWrapper;
@@ -63,6 +67,7 @@ public class MainFragment extends BaseFragment implements IMainFragmentView {
     private TelephoneState telephoneState;
     private SoundPoolManager soundPoolManager;
     private VibrateManager vibrateManager;
+    private Context context;
 
     @BindView(R.id.ivBattery)
     ImageView ivBattery;
@@ -212,11 +217,36 @@ public class MainFragment extends BaseFragment implements IMainFragmentView {
     }
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        this.context = context;
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
         checkThemeChange();
         presenter.onBatteryLevelInfo(getContext());
+        context.registerReceiver(simStateReceiver,new IntentFilter(ACTION_SIM_STATE_CHANGED));
     }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        context.unregisterReceiver(simStateReceiver);
+    }
+
+    private BroadcastReceiver simStateReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            try {
+                if (telephoneState == null)
+                    telephoneState = new TelephoneState(getContext());
+                telephoneState.init(signalListener);
+            } catch (Exception ignore) {
+            }
+        }
+    };
 
     private void onThemeInitial() {
         if (themeManager.getCurrentTheme().getPosition() == 0 && themePrefModelArrayList.size() > 0)

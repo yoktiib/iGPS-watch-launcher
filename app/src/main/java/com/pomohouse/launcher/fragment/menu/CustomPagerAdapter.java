@@ -11,8 +11,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.pomohouse.component.pager.VerticalViewPager;
+import com.pomohouse.launcher.POMOWatchApplication;
 import com.pomohouse.launcher.R;
 import com.pomohouse.library.WearerInfoUtils;
+import com.pomohouse.library.languages.LanguageSetting;
 
 import java.util.ArrayList;
 
@@ -100,10 +102,14 @@ public class CustomPagerAdapter extends PagerAdapter {
         if (i == null) {
             return false;
         }
-        i.putExtra("LANGUAGE", WearerInfoUtils.getInstance().getLanguage());
+        i.putExtra("LANGUAGE", LanguageSetting.getLanguage());
         i.putExtra("IMEI", WearerInfoUtils.getInstance().getImei());
         i.putExtra("POMO_VERSION", WearerInfoUtils.getInstance().getPomoVersion());
         i.putExtra("PLATFORM", WearerInfoUtils.getInstance().getPlatform());
+        if (packageName.contains("takemehome") && POMOWatchApplication.mLocation!=null){
+            i.putExtra("LATITUDE", POMOWatchApplication.mLocation.getLatitude());
+            i.putExtra("LONGITUDE", POMOWatchApplication.mLocation.getLongitude());
+        }
         i.addCategory(Intent.CATEGORY_LAUNCHER);
         i.addCategory(Intent.ACTION_MAIN);
         mContext.startActivity(i);

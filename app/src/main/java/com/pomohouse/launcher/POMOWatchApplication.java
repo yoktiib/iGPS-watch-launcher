@@ -2,6 +2,7 @@ package com.pomohouse.launcher;
 
 import android.app.Application;
 import android.content.Context;
+import android.location.Location;
 
 import com.crashlytics.android.Crashlytics;
 import com.pomohouse.launcher.di.ApplicationModule;
@@ -21,6 +22,7 @@ import timber.log.Timber;
  */
 public class POMOWatchApplication extends Application {
     private ObjectGraph objectGraph;
+    public static Location mLocation;
 
     @Override
     public void onCreate() {

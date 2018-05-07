@@ -57,6 +57,7 @@
             android:uiOptions="splitActionBarWhenNarrow">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
                 <!-- The following two intent-filters are the key to set homescreen -->
                 <category android:name="android.intent.category.HOME" />
                 <category android:name="android.intent.category.DEFAULT" />

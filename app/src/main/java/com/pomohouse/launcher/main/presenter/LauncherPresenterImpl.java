@@ -24,6 +24,7 @@ import android.os.Handler;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -550,6 +551,7 @@ public class LauncherPresenterImpl extends BaseRetrofitPresenter implements ILau
                     break;
                 case EVENT_LANGUAGE_CODE:
                     LanguageDao language = new Gson().fromJson(_eventData.getContent(), LanguageDao.class);
+                    Log.d("LchrPreImpl","EVENT_LANGUAGE_CODE _eventData.getContent() "+_eventData.getContent());
                     if (language != null)
                         view.onChangeLanguage(new Locale(language.getLanguage(), language.getCountry()));
                     view.setupSuccess();

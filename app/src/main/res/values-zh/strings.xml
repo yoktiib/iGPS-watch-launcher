@@ -61,9 +61,11 @@
     <string name="text_setup_success">ตั้งค่า สำเร็จ</string>
 
 
-    <string name="action_cancel">CANCEL</string>
-    <string name="action_close">CLOSE</string>
-    <string name="action_ok">OK</string>
+    <string name="action_cancel">取消</string>
+    <string name="action_close">关</string>
+    <string name="action_ok">好</string>
     <string name="text_am">AM</string>
     <string name="text_pm">PM</string>
+
+
 </resources>

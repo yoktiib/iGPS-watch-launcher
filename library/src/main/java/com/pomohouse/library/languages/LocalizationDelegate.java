@@ -7,6 +7,9 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.DisplayMetrics;
+import android.util.Log;
+
+import com.pomohouse.library.WearerInfoUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -90,6 +93,8 @@ public class LocalizationDelegate {
         setupLocale(locale);
         currentLanguage = locale.getLanguage();
         LanguageSetting.setLanguage(activity, locale.getLanguage());
+        WearerInfoUtils.getInstance().setLanguage(locale.getLanguage());
+        Log.d("LocalizationDelegate","setupLanguage currentLanguage "+currentLanguage);
     }
 
     // Set locale configuration.

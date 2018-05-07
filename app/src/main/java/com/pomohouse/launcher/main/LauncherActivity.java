@@ -8,6 +8,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.content.SharedPreferences;
 import android.location.Location;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
@@ -18,6 +19,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.multidex.MultiDex;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.WindowManager;
 import android.widget.Toast;
@@ -35,6 +37,7 @@ import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.Gson;
 import com.pomohouse.component.pager.HorizontalViewPager;
+import com.pomohouse.launcher.POMOWatchApplication;
 import com.pomohouse.launcher.R;
 import com.pomohouse.launcher.activity.pair.EventAlertActivity;
 import com.pomohouse.launcher.activity.pincode.PinCodeActivity;
@@ -329,6 +332,9 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
                 .build();
         Intent i = new Intent();
         startService(i.setComponent(new ComponentName("com.pomohouse.contact", "com.pomohouse.contact.VoIPService")));
+
+        SharedPreferences testPrefs = getSharedPreferences
+                ("test_prefs", Context.MODE_WORLD_READABLE);
     }
 
     @Override
@@ -748,6 +754,7 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
     public void onChangeLanguage(Locale locale) {
         setLanguage(locale.getLanguage());
         WearerInfoUtils.getInstance().setLanguage(locale.getLanguage());
+        Log.d("Launcher","onChangeLanguage "+ WearerInfoUtils.getInstance().getLanguage());
     }
 
     /**
@@ -843,6 +850,7 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
     public void updateLocation(Location location) {
         if (WearerInfoUtils.getInstance() == null || WearerInfoUtils.getInstance().getImei() == null || WearerInfoUtils.getInstance().getImei().isEmpty())
             return;
+        POMOWatchApplication.mLocation = location;
         getContentResolver().delete(POMOContract.WearerEntry.CONTENT_URI, null, new String[]{});
         ContentValues values = new ContentValues();
         values.put(POMOContract.WearerEntry.IMEI, WearerInfoUtils.getInstance().getImei());
