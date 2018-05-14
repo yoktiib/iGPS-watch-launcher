@@ -26,15 +26,10 @@ public class MyPageAdapter extends FragmentPagerAdapter implements IconPagerAdap
     }
 
     public int getCount() {
-        return 3;
+        return 1;
     }
 
     public Fragment getItem(int position) {
-        if (position == 0)
-            return QRCodeFragment.newInstance();
-        else if (position == 1)
-            return PinCodeFragment.newInstance();
-        else
-            return AboutInfoFragment.newInstance();
+        return AboutInfoFragment.newInstance();
     }
 }

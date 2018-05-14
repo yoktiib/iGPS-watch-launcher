@@ -13,7 +13,7 @@
         android:layout_height="match_parent" />
 
 
-    <com.pomohouse.component.viewpagerindicator.CirclePageIndicator
+    <!--<com.pomohouse.component.viewpagerindicator.CirclePageIndicator
         android:id="@+id/indicator"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -25,5 +25,5 @@
         app:radius="10dp"
         app:strokeColor="@color/waffle_yellow_03_color"
         app:strokeWidth="4dp" />
-
+-->
 </RelativeLayout>

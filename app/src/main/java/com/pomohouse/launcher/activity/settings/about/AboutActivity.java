@@ -30,7 +30,7 @@ public class AboutActivity extends BaseActivity {
         adapter = new MyPageAdapter(getSupportFragmentManager());
         pager = (ViewPager) findViewById(R.id.pager);
         pager.setAdapter(adapter);
-        indicator = (CirclePageIndicator) findViewById(R.id.indicator);
+        /*indicator = (CirclePageIndicator) findViewById(R.id.indicator);
         indicator.setViewPager(pager);
         indicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -47,7 +47,7 @@ public class AboutActivity extends BaseActivity {
             public void onPageScrollStateChanged(int state) {
 
             }
-        });
+        });*/
     }
 
     @Override
