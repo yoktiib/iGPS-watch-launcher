@@ -36,12 +36,12 @@
         <item>นอนหลับ</item>
     </string-array>
     <string-array name="mainMenuNameArr">
-        <item>เพิ่มเพื่อน</item>
+        <!--<item>เพิ่มเพื่อน</item>-->
         <item>ข้อความ</item>
         <item>กลุ่มสนทนา</item>
-        <item>แปลภาษา</item>
+        <!--<item>แปลภาษา</item>
         <item>พากลับบ้าน</item>
-        <item>WHERE AM I</item>
+        <item>WHERE AM I</item>-->
         <item>ฟิตเนส</item>
         <!--<item>กันยุง</item>-->
         <item>การตั้งค่า</item>

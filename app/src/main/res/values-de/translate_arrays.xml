@@ -39,12 +39,12 @@
     </string-array>
 
     <string-array name="mainMenuNameArr">
-        <item>BFFI</item>
+        <!--<item>BFFI</item>-->
         <item>NACHRICHT</item>
         <item>GRUPPENCHAT</item>
-        <item>TRANSLATE</item>
+        <!--<item>TRANSLATE</item>
         <item>ZUHAUSE</item>
-        <item>WHEREAMI</item>
+        <item>WHEREAMI</item>-->
         <item>FITNESS</item>
         <!--<item>MOSKITO</item>-->
         <item>EINSTELLUNGEN</item>

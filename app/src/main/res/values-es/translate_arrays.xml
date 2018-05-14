@@ -42,11 +42,11 @@
 
     <string-array name="mainMenuNameArr">
         <!--<item>MEJORES AMIGOS</item>-->
-        <item>AMIGOS</item>
+        <!--<item>AMIGOS</item>-->
         <item>MENSAJE</item>
         <item>GRUPO CHAT</item>
-        <item>TRANSLATE</item>
-        <item>LLEVAME A CASA</item>
+        <!--<item>TRANSLATE</item>
+        <item>LLEVAME A CASA</item>-->
         <item>PODÓMETRO</item>
         <!--<item>MOSQUITOS</item>-->
         <item>AJUSTES</item>
