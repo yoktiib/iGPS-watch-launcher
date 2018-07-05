@@ -196,12 +196,25 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
     @Override
     public void requestGPSLocation() {
         Timber.e("requestGPSLocation");
-        LocationRequest locationRequest = new LocationRequest()
-                .setNumUpdates(1)
-                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        LocationAvailability locationAvailability = LocationServices.FusedLocationApi.getLocationAvailability(googleApiClient);
-        if (locationAvailability == null)
-            LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, initIntentPadding(1));
+        Location location = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
+        if (location!=null){
+            EventDataInfo eventContent = new EventDataInfo();
+            eventContent.setContent(new Gson().toJson(location));
+            final Intent intentEvent = new Intent(SEND_EVENT_UPDATE_INTENT);
+            intentEvent.putExtra(EVENT_STATUS_EXTRA, new MetaDataNetwork(0, "success"));
+            intentEvent.putExtra(EVENT_EXTRA, eventContent);
+            sendBroadcast(intentEvent);
+        }else {
+            LocationAvailability locationAvailability = LocationServices.FusedLocationApi.getLocationAvailability(googleApiClient);
+            if (locationAvailability == null) {
+                LocationRequest locationRequest = new LocationRequest()
+                        .setNumUpdates(1)
+                        .setInterval(5000)
+                        .setFastestInterval(1000)
+                        .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+                LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, initIntentPadding(1));
+            }
+        }
     }
 
     public void checkLocationAvailable() {
@@ -297,6 +310,7 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
     }
 
     public PendingIntent initIntentPadding(int id) {
+        Timber.d("############## initIntentPadding -> LocationIntentService");
         if (mLocationPendingIntent == null)
             return mLocationPendingIntent = PendingIntent.getService(this, id, new Intent(this, LocationIntentService.class), PendingIntent.FLAG_UPDATE_CURRENT);
         else return mLocationPendingIntent;

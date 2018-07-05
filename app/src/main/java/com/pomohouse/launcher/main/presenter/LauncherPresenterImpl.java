@@ -622,7 +622,7 @@ public class LauncherPresenterImpl extends BaseRetrofitPresenter implements ILau
                     Location currLocation = new Gson().fromJson(_eventData.getContent(), Location.class);
                     if (currLocation != null) {
                         view.updateLocation(currLocation);
-                        Timber.e("New Location : " + currLocation.getAccuracy());
+                        Timber.e("Send Location : " + currLocation.getLatitude() + ", "+ currLocation.getLongitude());
                         RefreshLocationRequest locationUpdate = new RefreshLocationRequest(currLocation, LocationIntentService.locationRefreshEndpoint);
                         locationUpdate.setImei(WearerInfoUtils.getInstance().getImei());
                         locationUpdate.setPower(getPowerLevel());

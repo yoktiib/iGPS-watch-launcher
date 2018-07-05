@@ -9,6 +9,8 @@ import com.google.gson.Gson;
 import com.pomohouse.launcher.models.EventDataInfo;
 import com.pomohouse.library.networks.MetaDataNetwork;
 
+import timber.log.Timber;
+
 import static com.pomohouse.launcher.broadcast.BaseBroadcast.SEND_EVENT_UPDATE_INTENT;
 import static com.pomohouse.launcher.main.presenter.LauncherPresenterImpl.EVENT_EXTRA;
 import static com.pomohouse.launcher.main.presenter.LauncherPresenterImpl.EVENT_STATUS_EXTRA;
@@ -41,6 +43,7 @@ public class LocationIntentService extends IntentService {
      */
     @Override
     protected void onHandleIntent(Intent intent) {
+        Timber.d("##############LocationIntentService.onHandleIntent");
         try {
             if (LocationResult.hasResult(intent)) {
                 LocationResult locationResult = LocationResult.extractResult(intent);

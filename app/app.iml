@@ -22,7 +22,7 @@
       </configuration>
     </facet>
   </component>
-  <component name="NewModuleRootManager">
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8">
     <output url="file://$MODULE_DIR$/build/intermediates/classes/debug" />
     <output-test url="file://$MODULE_DIR$/build/intermediates/classes/test/debug" />
     <exclude-output />
@@ -95,7 +95,7 @@
       <excludeFolder url="file://$MODULE_DIR$/build/reports" />
       <excludeFolder url="file://$MODULE_DIR$/build/tmp" />
     </content>
-    <orderEntry type="inheritedJdk" />
+    <orderEntry type="jdk" jdkName="Android API 25 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="Gradle: com.android.support:support-annotations:25.3.1@jar" level="project" />
     <orderEntry type="library" exported="" name="Gradle: com.jakewharton:butterknife-8.3.0" level="project" />
@@ -105,13 +105,13 @@
     <orderEntry type="library" exported="" name="Gradle: io.reactivex:rxandroid-1.2.1" level="project" />
     <orderEntry type="library" exported="" name="Gradle: com.levelmoney.velodrome:velodrome-1.0" level="project" />
     <orderEntry type="library" exported="" name="Gradle: com.google.android.gms:play-services-base-10.2.6" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: com.google.zxing:core:3.3.3@jar" level="project" />
     <orderEntry type="library" exported="" name="Gradle: com.google.firebase:firebase-analytics-impl-10.2.6" level="project" />
     <orderEntry type="library" exported="" name="Gradle: com.android.support:support-v4-25.3.1" level="project" />
     <orderEntry type="library" exported="" name="Gradle: com.google.firebase:firebase-messaging-10.2.6" level="project" />
     <orderEntry type="library" exported="" name="Gradle: net.danlew:android.joda-2.9.4.1" level="project" />
     <orderEntry type="library" exported="" name="Gradle: com.android.support:support-core-ui-25.3.1" level="project" />
     <orderEntry type="library" exported="" name="Gradle: com.crashlytics.sdk.android:beta-1.2.3" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: com.google.zxing:core:3.3.2@jar" level="project" />
     <orderEntry type="library" exported="" name="Gradle: javax.annotation:jsr250-api:1.0@jar" level="project" />
     <orderEntry type="library" exported="" name="Gradle: com.crashlytics.sdk.android:crashlytics-core-2.3.15" level="project" />
     <orderEntry type="library" exported="" name="Gradle: com.google.android.gms:play-services-location-10.2.6" level="project" />
@@ -149,6 +149,5 @@
     <orderEntry type="module" module-name="component" exported="" />
     <orderEntry type="module" module-name="library" exported="" />
     <orderEntry type="module" module-name="network-library" exported="" />
-    <orderEntry type="library" exported="" name="Gradle: android-android-25" level="project" />
   </component>
 </module>
