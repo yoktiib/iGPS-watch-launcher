@@ -42,7 +42,7 @@
     <string-array name="mainMenuNameArr">
         <!--<item>BFF</item>-->
         <item>MESSAGE</item>
-        <item>GROUP CHAT</item>
+        <!--<item>GROUP CHAT</item>-->
         <!--<item>TRANSLATE</item>-->
         <item>TAKE ME HOME</item>
         <!--<item>WHERE AM I</item>-->

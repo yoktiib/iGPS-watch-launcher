@@ -38,7 +38,7 @@
     <string-array name="mainMenuNameArr">
         <!--<item>BFF</item>-->
         <item>MESSAGGI</item>
-        <item>CHAT DI GRUPPO</item>
+        <!--<item>CHAT DI GRUPPO</item>-->
         <!--<item>TRANSLATE</item>-->
         <item>TORNA A CASA</item>
         <!--<item>WHERE AM I</item>-->

@@ -41,7 +41,7 @@
     <string-array name="mainMenuNameArr">
         <!--<item>BFFI</item>-->
         <item>NACHRICHT</item>
-        <item>GRUPPENCHAT</item>
+        <!--<item>GRUPPENCHAT</item>-->
         <!--<item>TRANSLATE</item>-->
         <item>ZUHAUSE</item>
         <!--<item>WHEREAMI</item>-->

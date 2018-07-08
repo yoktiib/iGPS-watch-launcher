@@ -42,7 +42,7 @@
     <string-array name="mainMenuNameArr">
         <!--<item>ДРУЗЬЯ НАВСЕГДА</item>-->
         <item>СООБЩЕНИЕ</item>
-        <item>ГРУППОВОЙ ЧАТ</item>
+        <!--<item>ГРУППОВОЙ ЧАТ</item>-->
         <!--<item>ПУТЬ ДОМОЙ</item>-->
         <item>Переведите</item>
         <!--<item>WHERE AM I</item>-->

@@ -42,7 +42,7 @@
     <string-array name="mainMenuNameArr">
         <!--<item>BFF</item>-->
         <item>信息</item>
-        <item>集團聊天</item>
+        <!--<item>集團聊天</item>-->
         <!--<item>帶我回家</item>-->
         <item>翻譯</item>
         <!--<item>WHERE AM I</item>-->

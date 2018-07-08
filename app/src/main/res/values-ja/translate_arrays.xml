@@ -42,7 +42,7 @@
     <string-array name="mainMenuNameArr">
         <!--<item>しんゆう</item>-->
         <item>メッセージ</item>
-        <item>グループチャット</item>
+        <!--<item>グループチャット</item>-->
         <!--<item>TRANSLATE</item>-->
         <item>おうちへかえろう</item>
         <!--<item>WHERE AM I</item>-->

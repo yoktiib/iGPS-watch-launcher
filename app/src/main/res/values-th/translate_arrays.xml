@@ -38,7 +38,7 @@
     <string-array name="mainMenuNameArr">
         <!--<item>เพิ่มเพื่อน</item>-->
         <item>ข้อความ</item>
-        <item>กลุ่มสนทนา</item>
+        <!--<item>กลุ่มสนทนา</item>-->
         <!--<item>แปลภาษา</item>-->
         <item>พากลับบ้าน</item>
         <!--<item>WHERE AM I</item>-->
